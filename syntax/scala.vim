@@ -1,6 +1,4 @@
-if version < 600
-  syntax clear
-elseif exists("b:current_syntax")
+if exists("b:current_syntax")
   finish
 endif
 
@@ -95,15 +93,17 @@ syn region scalaString start=/"/ end=/"/ contains=scalaStringEmbeddedQuote,scala
 hi link scalaString String
 hi link scalaStringEmbeddedQuote String
 
+syn region scalaUDIString matchgroup=Special start=/[a-zA-Z0-9_$]\+"/ skip=/\\"/ end=/"/ contains=scalaInterpolation,scalaFInterpolation,scalaEscapedChar,scalaUnicodeChar
+
 syn region scalaSString matchgroup=Special start=/s"/ skip=/\\"/ end=/"/ contains=scalaInterpolation,scalaEscapedChar,scalaUnicodeChar
 syn match scalaInterpolation /\$[a-zA-Z0-9_$]\+/ contained
-syn match scalaInterpolation /\${[^}]\+}/ contained
+syn region scalaInterpolation start=/\${/ end=/}/ contained contains=scalaInterpolation
 hi link scalaSString String
 hi link scalaInterpolation Function
 
 syn region scalaFString matchgroup=Special start=/f"/ skip=/\\"/ end=/"/ contains=scalaInterpolation,scalaFInterpolation,scalaEscapedChar,scalaUnicodeChar
 syn match scalaFInterpolation /\$[a-zA-Z0-9_$]\+%[-A-Za-z0-9\.]\+/ contained
-syn match scalaFInterpolation /\${[^}]\+}%[-A-Za-z0-9\.]\+/ contained
+syn region scalaFInterpolation start=/\${/ end=/}/ contained contains=scalaFInterpolation
 hi link scalaFString String
 hi link scalaFInterpolation Function
 
@@ -115,6 +115,7 @@ syn region scalaTripleQuasiQuotes matchgroup=Type start=/\<q"""/ end=/"""\%([^"]
 syn region scalaTripleQuasiQuotes matchgroup=Type start=/\<[tcp]q"""/ end=/"""\%([^"]\|$\)/ contains=scalaInterpolation
 hi link scalaTripleQuasiQuotes String
 
+syn region scalaTripleUDIString matchgroup=Special start=/[a-zA-Z0-9_$]\+"""/ end=/"""\%([^"]\|$\)/ contains=scalaInterpolation,scalaFInterpolation,scalaEscapedChar,scalaUnicodeChar
 syn region scalaTripleString start=/"""/ end=/"""\%([^"]\|$\)/ contains=scalaEscapedChar,scalaUnicodeChar
 syn region scalaTripleSString matchgroup=Special start=/s"""/ end=/"""\%([^"]\|$\)/ contains=scalaInterpolation,scalaEscapedChar,scalaUnicodeChar
 syn region scalaTripleFString matchgroup=Special start=/f"""/ end=/"""\%([^"]\|$\)/ contains=scalaInterpolation,scalaFInterpolation,scalaEscapedChar,scalaUnicodeChar
